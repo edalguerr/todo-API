@@ -9,16 +9,31 @@ export class TaskServiceAdapter implements TaskServiceI {
   save(task: Task): Promise<Task> {
     return this.taskRepository.save(task);
   }
-  async update(task: Task): Promise<Task> {
-    await this.taskRepository.update(task.id, task);
-
-    return this.taskRepository.findOneBy({ id: task.id });
+  update(task: Task): Promise<Task> {
+    return this.taskRepository.updateTask(task);
   }
   async delete(id: number): Promise<Task> {
     const task = await this.taskRepository.findOneBy({ id });
     return this.taskRepository.remove(task);
   }
   list(): Promise<Task[]> {
-    return this.taskRepository.find();
+    return this.taskRepository.find({
+      relations: {
+        categories: true,
+        state: true,
+      },
+    });
+  }
+
+  getTaskById(id: number): Promise<Task> {
+    return this.taskRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        state: true,
+        categories: true,
+      },
+    });
   }
 }

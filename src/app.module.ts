@@ -2,13 +2,15 @@ import { Global, Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
-import { HttpExceptionFilter } from './http-exceptions-filter';
+import { HttpExceptionFilter } from './shared/filters/http-exceptions-filter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import envConfigOptions from '../config/env-options.config';
 import typeOrmConfig from 'config/typeOrm.config';
 import { TaskModule } from './infrastructure/api/controller/task/task.module';
 import { StateModule } from './infrastructure/api/controller/state/state.module';
+import { CategoryModule } from './infrastructure/api/controller/category/category.module';
+import { CustomExceptionFilter } from './shared/filters/custom-exceptions-filter';
 
 @Global()
 @Module({
@@ -20,6 +22,7 @@ import { StateModule } from './infrastructure/api/controller/state/state.module'
     }),
     TaskModule,
     StateModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [
@@ -27,6 +30,10 @@ import { StateModule } from './infrastructure/api/controller/state/state.module'
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: CustomExceptionFilter,
     },
     {
       provide: APP_PIPE,
