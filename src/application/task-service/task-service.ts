@@ -5,6 +5,7 @@ import { CategoryService } from '../category-service/category-service';
 import { Category } from 'src/domain/entity/category';
 import { NotFoundException } from 'src/shared/exceptions/not-found-exception';
 import { State } from 'src/domain/entity/state';
+import { FilterParamsI } from 'src/shared/interfaces/filter-params.interface';
 
 export class TaskService {
   constructor(
@@ -64,8 +65,9 @@ export class TaskService {
     return await this.taskService.update(task);
   }
 
-  delete(task: Task): Promise<Task> {
-    return this.taskService.delete(task.id);
+  async delete(id: number): Promise<Task> {
+    const task = await this.getTaskById(id);
+    return this.taskService.delete(task);
   }
 
   list(): Promise<Task[]> {
@@ -78,5 +80,9 @@ export class TaskService {
       throw new NotFoundException();
     }
     return task;
+  }
+
+  async filter(criteria: FilterParamsI): Promise<Task[]> {
+    return this.taskService.filter(criteria);
   }
 }
