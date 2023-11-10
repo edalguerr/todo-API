@@ -1,6 +1,4 @@
 import { Global, Module, ValidationPipe } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './shared/filters/http-exceptions-filter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -24,9 +22,7 @@ import { CustomExceptionFilter } from './shared/filters/custom-exceptions-filter
     StateModule,
     CategoryModule,
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
