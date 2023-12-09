@@ -9,6 +9,7 @@ import { TaskModule } from './infrastructure/api/controller/task/task.module';
 import { StateModule } from './infrastructure/api/controller/state/state.module';
 import { CategoryModule } from './infrastructure/api/controller/category/category.module';
 import { CustomExceptionFilter } from './shared/filters/custom-exceptions-filter';
+import { StateGatewayModule } from './infrastructure/api/gateway/state/state.gateway.module';
 
 @Global()
 @Module({
@@ -21,6 +22,7 @@ import { CustomExceptionFilter } from './shared/filters/custom-exceptions-filter
     TaskModule,
     StateModule,
     CategoryModule,
+    StateGatewayModule,
   ],
   providers: [
     {
